@@ -1,0 +1,32 @@
+{
+  "menuList": [
+    {
+      "menuSeqNo": 10001,
+      "menuTitle": "메뉴1"
+    },
+    {
+      "menuSeqNo": 10002,
+      "menuTitle": "메뉴2"
+    },
+    {
+      "menuSeqNo": 10003,
+      "menuTitle": "메뉴3"
+    },
+    {
+      "menuSeqNo": 10004,
+      "menuTitle": "메뉴4"
+    },
+    {
+      "menuSeqNo": 10005,
+      "menuTitle": "메뉴5"
+    },
+    {
+      "menuSeqNo": 10006,
+      "menuTitle": "메뉴6"
+    },
+    {
+      "menuSeqNo": 10007,
+      "menuTitle": "메뉴7"
+    }
+  ]
+}
