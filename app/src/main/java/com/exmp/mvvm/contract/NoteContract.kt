@@ -5,4 +5,5 @@ interface NoteContract {
     fun addNote()
 
     fun deleteNote(seqNo: Int?)
+    fun detailNote(seqNo: Int?)
 }

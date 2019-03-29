@@ -1,6 +1,7 @@
 package com.exmp.mvvm.view
 
 import android.content.Context
+import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
@@ -66,9 +67,21 @@ class NoteListActivity : AppCompatActivity(), NoteContract {
      * 메뉴 삭제
      */
     override fun deleteNote(seqNo: Int?) {
-        if (seqNo == null)
-            return
-        adapter.deleteItem(seqNo)
+        seqNo?.let {
+            adapter.deleteItem(it)
+        }
+    }
+
+    /**
+     *
+     */
+    override fun detailNote(seqNo: Int?) {
+        seqNo?.let {
+            val i = Intent(this, NoteDetailActivity::class.java)
+            // todo 데이터 다 넘기기
+            i.putExtra(NoteDetailActivity.EXTRA.seqNo, it)
+            startActivity(i)
+        }
     }
 
 }

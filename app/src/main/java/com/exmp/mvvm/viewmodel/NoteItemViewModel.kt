@@ -12,6 +12,10 @@ class NoteItemViewModel(private var contract: NoteContract) {
         contract.deleteNote(noteSeq.get())
     }
 
+    fun detailNote(){
+        contract.detailNote(noteSeq.get())
+    }
+
     fun bindItem(item: NoteService.Data.Note) {
         noteName.set(item.noteTitle)
         noteSeq.set(item.noteSeqNo)
