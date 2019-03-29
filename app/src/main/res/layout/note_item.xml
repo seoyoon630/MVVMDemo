@@ -7,37 +7,37 @@
 
         <variable
             name="model"
-            type="com.exmp.mvvm.viewmodel.MenuItemViewModel" />
+            type="com.exmp.mvvm.viewmodel.NoteItemViewModel" />
 
     </data>
     <!--android:onClick=""-->
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="@dimen/menu_item_height"
+        android:minHeight="@dimen/note_item_height"
         android:background="@android:color/white"
         android:layout_margin="10dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/menu_text"
-            android:text="@{model.menuName}"
+            android:textSize="@dimen/note_text"
+            android:text="@{model.noteName}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="menu1" />
+            tools:text="notetitle" />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/delete"
             android:padding="10dp"
-            android:onClick="@{()->model.deleteMenu()}"
+            android:onClick="@{()->model.deleteNote()}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:contentDescription="@string/menu_delete" />
+            android:contentDescription="@string/note_delete" />
 
     </android.support.constraint.ConstraintLayout>
 </layout>

@@ -13,7 +13,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
-            android:hint="@string/menu_hint"
+            android:hint="@string/note_hint"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="Autofill,TextFields" />

@@ -1,32 +1,32 @@
 {
-  "menuList": [
+  "noteList": [
     {
-      "menuSeqNo": 1,
-      "menuTitle": "메뉴1"
+      "noteSeqNo": 1,
+      "noteTitle": "메뉴1"
     },
     {
-      "menuSeqNo": 2,
-      "menuTitle": "메뉴2"
+      "noteSeqNo": 2,
+      "noteTitle": "메뉴2"
     },
     {
-      "menuSeqNo": 3,
-      "menuTitle": "메뉴3"
+      "noteSeqNo": 3,
+      "noteTitle": "메뉴3"
     },
     {
-      "menuSeqNo": 4,
-      "menuTitle": "메뉴4"
+      "noteSeqNo": 4,
+      "noteTitle": "메뉴4"
     },
     {
-      "menuSeqNo": 5,
-      "menuTitle": "메뉴5"
+      "noteSeqNo": 5,
+      "noteTitle": "메뉴5"
     },
     {
-      "menuSeqNo": 6,
-      "menuTitle": "메뉴6"
+      "noteSeqNo": 6,
+      "noteTitle": "메뉴6"
     },
     {
-      "menuSeqNo": 7,
-      "menuTitle": "메뉴7"
+      "noteSeqNo": 7,
+      "noteTitle": "메뉴7"
     }
   ]
 }

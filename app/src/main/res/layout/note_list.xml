@@ -7,14 +7,14 @@
 
         <variable
             name="model"
-            type="com.exmp.mvvm.viewmodel.MenuListViewModel" />
+            type="com.exmp.mvvm.viewmodel.NoteListViewModel" />
     </data>
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#33dddddd"
-        tools:context=".view.MainActivity">
+        tools:context=".view.NoteListActivity">
 
         <Button
             android:id="@+id/add"
@@ -22,8 +22,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:background="@android:color/white"
-            android:onClick="@{()->model.addMenu()}"
-            android:text="@string/menu_add"
+            android:onClick="@{()->model.addNote()}"
+            android:text="@string/note_add"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -39,7 +39,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/add"
             tools:itemCount="10"
-            tools:listitem="@layout/menu_item" />
+            tools:listitem="@layout/note_item" />
 
     </android.support.constraint.ConstraintLayout>
 </layout>

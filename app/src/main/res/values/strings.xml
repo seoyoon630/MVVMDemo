@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">MVVM Demo</string>
-    <string name="menu_hint">생성할 메뉴 이름</string>
-    <string name="menu_add">메뉴 추가</string>
-    <string name="menu_delete">메뉴 삭제</string>
+    <string name="note_hint">생성할 노트 이름</string>
+    <string name="note_add">노트 추가</string>
+    <string name="note_delete">노트 삭제</string>
 </resources>
