@@ -5,8 +5,8 @@ import com.exmp.mvvm.contract.MenuContract
 import com.exmp.mvvm.model.MenuService
 
 class MenuItemViewModel(private var contract: MenuContract) {
-    private var menuName = ObservableField<String>()
-    private var menuSeq = ObservableField<Int>()
+    var menuName = ObservableField<String>()
+    var menuSeq = ObservableField<Int>()
 
     fun deleteMenu(){
         contract.deleteMenu(menuSeq.get())
