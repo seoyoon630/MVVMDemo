@@ -14,9 +14,8 @@ import com.exmp.mvvm.util.Util
 import com.exmp.mvvm.viewmodel.MenuItemViewModel
 import com.google.gson.Gson
 
-class MenuAdapter(mContext: Context, mContract: MenuContract) : RecyclerView.Adapter<MenuHolder>() {
-    val mContext = mContext
-    val mContract = mContract
+class MenuAdapter(private val mContext: Context, private val mContract: MenuContract) : RecyclerView.Adapter<MenuHolder>() {
+    var lastSeq = 0
     var items: MutableList<MenuService.Data.Menu> = mutableListOf()
 
     override fun getItemCount(): Int {
@@ -36,17 +35,34 @@ class MenuAdapter(mContext: Context, mContract: MenuContract) : RecyclerView.Ada
     }
 
     fun addItems(items: MutableList<MenuService.Data.Menu>) {
-        val beforeIdx = this.items.size-1
+        lastSeq += items.size
+        val beforeIdx = this.items.size - 1
         this.items.addAll(items)
-        notifyItemRangeInserted(beforeIdx, itemCount-1)
+        notifyItemRangeInserted(beforeIdx, itemCount - 1)
     }
 
     fun addItem(item: MenuService.Data.Menu) {
+        lastSeq += 1
         this.items.add(item)
-        notifyItemInserted(itemCount-1)
+        notifyItemInserted(itemCount - 1)
     }
 
-    fun deleteMenu(seqNo: String) {
+    fun addItem(title: String) {
+        lastSeq += 1
+        val newMenu = MenuService.Data.Menu(lastSeq, title)
+        this.items.add(newMenu)
+        notifyItemInserted(itemCount - 1)
+    }
+
+    fun addNextItem() {
+        lastSeq += 1
+        val title = "메뉴$lastSeq"
+        val newMenu = MenuService.Data.Menu(lastSeq, title)
+        this.items.add(newMenu)
+        notifyItemInserted(itemCount - 1)
+    }
+
+    fun deleteMenu(seqNo: Int) {
         for (item in items) {
             if (seqNo == item.menuSeqNo) {
                 val idx = items.indexOf(item)
@@ -66,12 +82,10 @@ class MenuAdapter(mContext: Context, mContract: MenuContract) : RecyclerView.Ada
     }
 }
 
-class MenuHolder(itemView: View, model: MenuItemViewModel?) : RecyclerView.ViewHolder(itemView) {
-    val model = model
+class MenuHolder(itemView: View, val model: MenuItemViewModel?) : RecyclerView.ViewHolder(itemView) {
 
     fun bind(item: MenuService.Data.Menu) {
         model?.bindItem(item)
     }
 
 }
-

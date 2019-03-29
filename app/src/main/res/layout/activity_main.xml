@@ -16,16 +16,14 @@
         android:background="#33dddddd"
         tools:context=".view.MainActivity">
 
-
-        <!--android:onClick="@{()->list.addMenu()}"-->
         <Button
             android:id="@+id/add"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:background="@android:color/white"
-            android:onClick="@{model::addMenu}"
-            android:text="메뉴 추가"
+            android:onClick="@{()->model.addMenu()}"
+            android:text="@string/menu_add"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

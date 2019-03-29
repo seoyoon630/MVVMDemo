@@ -6,10 +6,10 @@ interface MenuService {
         var menuList: MutableList<Menu>? = null
 
         class Menu {
-            var menuSeqNo: String? = null       // id
+            var menuSeqNo: Int? = null       // id
             var menuTitle: String? = null       // 이름
 
-            constructor(seqNo: String?, title: String?) {
+            constructor(seqNo: Int?, title: String?) {
                 this.menuSeqNo = seqNo
                 this.menuTitle = title
             }

@@ -1,15 +1,14 @@
 package com.exmp.mvvm.viewmodel
 
 import android.databinding.ObservableField
-import android.view.View
 import com.exmp.mvvm.contract.MenuContract
 import com.exmp.mvvm.model.MenuService
 
-class MenuItemViewModel(var contract: MenuContract) {
-    var menuName = ObservableField<String>()
-    var menuSeq = ObservableField<String>()
+class MenuItemViewModel(private var contract: MenuContract) {
+    private var menuName = ObservableField<String>()
+    private var menuSeq = ObservableField<Int>()
 
-    fun deleteMenu(itemView : View){
+    fun deleteMenu(){
         contract.deleteMenu(menuSeq.get())
         contract.showToast("지우기")
     }

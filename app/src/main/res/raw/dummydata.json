@@ -1,31 +1,31 @@
 {
   "menuList": [
     {
-      "menuSeqNo": 10001,
+      "menuSeqNo": 1,
       "menuTitle": "메뉴1"
     },
     {
-      "menuSeqNo": 10002,
+      "menuSeqNo": 2,
       "menuTitle": "메뉴2"
     },
     {
-      "menuSeqNo": 10003,
+      "menuSeqNo": 3,
       "menuTitle": "메뉴3"
     },
     {
-      "menuSeqNo": 10004,
+      "menuSeqNo": 4,
       "menuTitle": "메뉴4"
     },
     {
-      "menuSeqNo": 10005,
+      "menuSeqNo": 5,
       "menuTitle": "메뉴5"
     },
     {
-      "menuSeqNo": 10006,
+      "menuSeqNo": 6,
       "menuTitle": "메뉴6"
     },
     {
-      "menuSeqNo": 10007,
+      "menuSeqNo": 7,
       "menuTitle": "메뉴7"
     }
   ]

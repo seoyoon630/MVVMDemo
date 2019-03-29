@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="model"
-            type="com.exmp.mvvm.viewmodel.MenuItemViewModel"/>
+            type="com.exmp.mvvm.viewmodel.MenuItemViewModel" />
 
     </data>
     <!--android:onClick=""-->
@@ -17,27 +18,26 @@
         android:background="@android:color/white"
         android:layout_margin="10dp">
 
-        <!--android:text=""-->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/menu_text"
+            android:text="@{model.menuName}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:text="@{model.menuName}"
             tools:text="menu1" />
 
-        <!--android:onClick=""-->
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/delete"
             android:padding="10dp"
-            android:onClick="@{model::deleteMenu}"
+            android:onClick="@{()->model.deleteMenu()}"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="@string/menu_delete" />
 
     </android.support.constraint.ConstraintLayout>
 </layout>
