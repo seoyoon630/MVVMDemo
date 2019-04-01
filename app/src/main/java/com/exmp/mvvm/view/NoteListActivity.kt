@@ -43,28 +43,29 @@ class NoteListActivity : AppCompatActivity(), NoteContract {
     }
 
     /**
-     * 메뉴 추가
+     * 노트 추가
      */
     override fun addNote() {
-        val bb = DataBindingUtil.inflate<NoteDlgBinding>(LayoutInflater.from(this), R.layout.note_dlg, null, false)
-        AlertDialog.Builder(this)
-            .setView(bb.root)
-            .setPositiveButton("확인") { _, _ ->
-                run {
-                    if (bb.title.text.isNotEmpty()) {
-                        adapter.addItem(bb.title.text.toString())
-                    } else {
-                        adapter.addNextItem()
-                    }
-                    Toast.makeText(this, "확인", Toast.LENGTH_SHORT).show()
-                }
-            }
-            .setNegativeButton("취소") { _, _ -> run { Toast.makeText(this, "취소", Toast.LENGTH_SHORT).show() } }
-            .show()
+//        val bb = DataBindingUtil.inflate<NoteDlgBinding>(LayoutInflater.from(this), R.layout.note_dlg, null, false)
+//        AlertDialog.Builder(this)
+//            .setView(bb.root)
+//            .setPositiveButton("확인") { _, _ ->
+//                run {
+//                    if (bb.title.text.isNotEmpty()) {
+//                        adapter.addItem(bb.title.text.toString())
+//                    } else {
+//                        adapter.addNextItem()
+//                    }
+//                    Toast.makeText(this, "확인", Toast.LENGTH_SHORT).show()
+//                }
+//            }
+//            .setNegativeButton("취소") { _, _ -> run { Toast.makeText(this, "취소", Toast.LENGTH_SHORT).show() } }
+//            .show()
+        startActivity(Intent(this, NoteDetailActivity::class.java))
     }
 
     /**
-     * 메뉴 삭제
+     * 노트 삭제
      */
     override fun deleteNote(seqNo: Int?) {
         seqNo?.let {

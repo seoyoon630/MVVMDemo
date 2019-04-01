@@ -2,31 +2,31 @@
   "noteList": [
     {
       "noteSeqNo": 1,
-      "noteTitle": "메뉴1"
+      "noteTitle": "노트1"
     },
     {
       "noteSeqNo": 2,
-      "noteTitle": "메뉴2"
+      "noteTitle": "노트2"
     },
     {
       "noteSeqNo": 3,
-      "noteTitle": "메뉴3"
+      "noteTitle": "노트3"
     },
     {
       "noteSeqNo": 4,
-      "noteTitle": "메뉴4"
+      "noteTitle": "노트4"
     },
     {
       "noteSeqNo": 5,
-      "noteTitle": "메뉴5"
+      "noteTitle": "노트5"
     },
     {
       "noteSeqNo": 6,
-      "noteTitle": "메뉴6"
+      "noteTitle": "노트6"
     },
     {
       "noteSeqNo": 7,
-      "noteTitle": "메뉴7"
+      "noteTitle": "노트7"
     }
   ]
 }

@@ -50,7 +50,7 @@ class NoteAdapter(private val mContext: Context, private val mContract: NoteCont
 
     fun addNextItem() {
         lastSeq += 1
-        val title = "메뉴$lastSeq"
+        val title = "노트$lastSeq"
         val newNote = NoteService.Data.Note(lastSeq, title)
         this.items.add(newNote)
         notifyItemInserted(itemCount - 1)
