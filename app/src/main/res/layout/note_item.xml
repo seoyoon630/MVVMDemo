@@ -10,11 +10,13 @@
             type="com.exmp.mvvm.viewmodel.NoteItemViewModel" />
 
     </data>
+
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="@dimen/note_item_height"
-        android:background="@android:color/white"
+        android:onClick="@{()->model.detailNote()}"
+        android:background="@drawable/text_bg"
         android:layout_margin="10dp">
 
         <TextView
@@ -34,9 +36,9 @@
             android:src="@drawable/delete"
             android:padding="10dp"
             android:onClick="@{()->model.deleteNote()}"
+            android:contentDescription="@string/note_delete"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:contentDescription="@string/note_delete" />
+            app:layout_constraintTop_toTopOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
 </layout>

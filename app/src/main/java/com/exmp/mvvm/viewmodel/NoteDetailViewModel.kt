@@ -2,17 +2,18 @@ package com.exmp.mvvm.viewmodel
 
 import android.databinding.ObservableField
 import com.exmp.mvvm.contract.NoteDetailContract
+import com.exmp.mvvm.model.NoteService
+import com.exmp.mvvm.model.Notes
 
-class NoteDetailViewModel(var contract : NoteDetailContract) {
+class NoteDetailViewModel(var contract: NoteDetailContract) {
     var title = ObservableField<String>()
     var content = ObservableField<String>()
 
-    fun getData(){
-        // todo sql 전문 읽어서 title, content 내용 set
-
+    fun getNote(seqNo: Int): NoteService.Data.Note? {
+        return Notes.getNote(seqNo)
     }
 
-    fun onConfirm(){
-        contract.onConfirm(title.get(), content.get())
+    fun onConfirm() {
+        contract.onConfirm()
     }
 }

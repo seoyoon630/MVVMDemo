@@ -13,33 +13,59 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#33dddddd"
+        android:background="@android:color/white"
         tools:context=".view.NoteListActivity">
 
-        <Button
-            android:id="@+id/add"
+        <TextView
+            android:id="@+id/notepad"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="Notes"
+            android:textSize="20sp"
             android:layout_margin="10dp"
-            android:background="@android:color/white"
-            android:onClick="@{()->model.addNote()}"
-            android:text="@string/note_add"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/list"
             app:layout_constraintTop_toTopOf="parent" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/list"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="10dp"
             android:orientation="vertical"
+            android:visibility="@{model.showList}"
+            tools:visibility="invisible"
             app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/add"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/add"
+            app:layout_constraintTop_toBottomOf="@+id/notepad"
             tools:itemCount="10"
             tools:listitem="@layout/note_item" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="작성한 노트가 없습니다."
+            android:drawableTop="@drawable/no_note"
+            android:drawablePadding="10dp"
+            android:visibility="@{model.showInfo}"
+            android:textColor="#3BB8EC"
+            app:layout_constraintBottom_toTopOf="@+id/add"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/notepad"
+            tools:visibility="visible" />
+
+        <Button
+            android:id="@+id/add"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/button_bg"
+            android:onClick="@{()->model.addNote()}"
+            android:text="@string/note_add"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/list" />
 
     </android.support.constraint.ConstraintLayout>
 </layout>

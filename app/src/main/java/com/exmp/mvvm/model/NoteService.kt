@@ -3,12 +3,12 @@ package com.exmp.mvvm.model
 interface NoteService {
 
     class Data {
-        var noteList: MutableList<Note>? = null
+        var noteList: MutableList<Note> = mutableListOf()
 
-        class Note(val noteSeqNo: Int?, val noteTitle: String?) {
+        class Note(val seqNo: Int?, val title: String?, val content: String?) {
 
             override fun toString(): String {
-                return "$noteSeqNo,$noteTitle"
+                return "$seqNo, $title, $content"
             }
         }
     }

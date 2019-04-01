@@ -1,5 +1,6 @@
 package com.exmp.mvvm.view
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
@@ -7,11 +8,13 @@ import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.Toast
 import com.exmp.mvvm.R
 import com.exmp.mvvm.contract.NoteContract
 import com.exmp.mvvm.databinding.NoteDlgBinding
 import com.exmp.mvvm.databinding.NoteListBinding
+import com.exmp.mvvm.model.Notes
 import com.exmp.mvvm.viewmodel.NoteListViewModel
 
 class NoteListActivity : AppCompatActivity(), NoteContract {
@@ -23,45 +26,21 @@ class NoteListActivity : AppCompatActivity(), NoteContract {
         super.onCreate(savedInstanceState)
         bb = DataBindingUtil.setContentView(this, R.layout.note_list)
         bb.model = NoteListViewModel(this)
-        initData()
-        initViews()
+
+        init()
     }
 
-    /**
-     * 데이터 초기 설정
-     */
-    private fun initData() {
+    private fun init() {
         adapter = NoteAdapter(this as Context, this as NoteContract)
-        adapter.setDummyData()
-    }
-
-    /**
-     * 화면 초기 설정
-     */
-    private fun initViews() {
         bb.list.adapter = adapter
+        showListOrInfo()
     }
 
     /**
      * 노트 추가
      */
     override fun addNote() {
-//        val bb = DataBindingUtil.inflate<NoteDlgBinding>(LayoutInflater.from(this), R.layout.note_dlg, null, false)
-//        AlertDialog.Builder(this)
-//            .setView(bb.root)
-//            .setPositiveButton("확인") { _, _ ->
-//                run {
-//                    if (bb.title.text.isNotEmpty()) {
-//                        adapter.addItem(bb.title.text.toString())
-//                    } else {
-//                        adapter.addNextItem()
-//                    }
-//                    Toast.makeText(this, "확인", Toast.LENGTH_SHORT).show()
-//                }
-//            }
-//            .setNegativeButton("취소") { _, _ -> run { Toast.makeText(this, "취소", Toast.LENGTH_SHORT).show() } }
-//            .show()
-        startActivity(Intent(this, NoteDetailActivity::class.java))
+        startActivityForResult(Intent(this, NoteDetailActivity::class.java), 1000)
     }
 
     /**
@@ -70,18 +49,40 @@ class NoteListActivity : AppCompatActivity(), NoteContract {
     override fun deleteNote(seqNo: Int?) {
         seqNo?.let {
             adapter.deleteItem(it)
+            showListOrInfo()
         }
     }
 
     /**
-     *
+     * 노트 상세
      */
     override fun detailNote(seqNo: Int?) {
         seqNo?.let {
             val i = Intent(this, NoteDetailActivity::class.java)
-            // todo 데이터 다 넘기기
             i.putExtra(NoteDetailActivity.EXTRA.seqNo, it)
-            startActivity(i)
+            startActivityForResult(i, 1001)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == 1000 || requestCode == 1001) {
+                adapter.updateItems()
+                showListOrInfo()
+            }
+        }
+    }
+
+    private fun showListOrInfo() {
+        bb.model?.let { model ->
+            if (adapter.itemCount == 0) {
+                model.showInfo.set(View.VISIBLE)
+                model.showList.set(View.INVISIBLE)
+            } else {
+                model.showInfo.set(View.INVISIBLE)
+                model.showList.set(View.VISIBLE)
+            }
         }
     }
 

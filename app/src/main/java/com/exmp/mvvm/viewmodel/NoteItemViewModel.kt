@@ -17,7 +17,7 @@ class NoteItemViewModel(private var contract: NoteContract) {
     }
 
     fun bindItem(item: NoteService.Data.Note) {
-        noteName.set(item.noteTitle)
-        noteSeq.set(item.noteSeqNo)
+        noteName.set(item.title)
+        noteSeq.set(item.seqNo)
     }
 }

@@ -6,17 +6,18 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.exmp.mvvm.NoteID
 import com.exmp.mvvm.R
 import com.exmp.mvvm.contract.NoteContract
 import com.exmp.mvvm.databinding.NoteItemBinding
 import com.exmp.mvvm.model.NoteService
+import com.exmp.mvvm.model.Notes
 import com.exmp.mvvm.util.Util
 import com.exmp.mvvm.viewmodel.NoteItemViewModel
 import com.google.gson.Gson
 
 class NoteAdapter(private val mContext: Context, private val mContract: NoteContract) : RecyclerView.Adapter<Holder>() {
-    var lastSeq = 0
-    var items: MutableList<NoteService.Data.Note> = mutableListOf()
+    var items: MutableList<NoteService.Data.Note> = Notes.getNoteList()
 
     override fun getItemCount(): Int {
         return items.size
@@ -34,44 +35,41 @@ class NoteAdapter(private val mContext: Context, private val mContract: NoteCont
         return Holder(bb.root, bb.model)
     }
 
-    fun addItems(items: MutableList<NoteService.Data.Note>) {
-        lastSeq += items.size
-        val beforeIdx = this.items.size - 1
-        this.items.addAll(items)
-        notifyItemRangeInserted(beforeIdx, itemCount - 1)
-    }
+//    fun addItems(items: MutableList<NoteService.Data.Note>) {
+//        val beforeIdx = this.items.size - 1
+//        this.items.addAll(items)
+//        notifyItemRangeInserted(beforeIdx, itemCount - 1)
+//    }
 
-    fun addItem(title: String) {
-        lastSeq += 1
-        val newNote = NoteService.Data.Note(lastSeq, title)
-        this.items.add(newNote)
-        notifyItemInserted(itemCount - 1)
-    }
-
-    fun addNextItem() {
-        lastSeq += 1
-        val title = "노트$lastSeq"
-        val newNote = NoteService.Data.Note(lastSeq, title)
-        this.items.add(newNote)
+    fun addItem(title: String, content: String) {
+        val newNote = NoteService.Data.Note(NoteID.getID(), title, content)
+//        this.items.add(newNote)
+        Notes.addNote(newNote)
         notifyItemInserted(itemCount - 1)
     }
 
     fun deleteItem(seqNo: Int) {
         for (item in items) {
-            if (seqNo == item.noteSeqNo) {
+            if (seqNo == item.seqNo) {
                 val idx = items.indexOf(item)
-                items.remove(item)
+//                items.remove(item)
+                Notes.deleteNote(item)
                 notifyItemRemoved(idx)
                 break
             }
         }
     }
 
+    fun updateItems() {
+        items = Notes.getNoteList()
+        notifyDataSetChanged()
+    }
+
     fun setDummyData() {
         val rawData = Util.raw2string(mContext, R.raw.dummydata)
         val data = Gson().fromJson<NoteService.Data>(rawData, NoteService.Data::class.java)
         data.noteList?.let {
-            addItems(it)
+            //            addItems(it)
         }
     }
 }
