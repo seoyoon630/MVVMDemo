@@ -12,12 +12,10 @@ import com.exmp.mvvm.contract.NoteContract
 import com.exmp.mvvm.databinding.NoteItemBinding
 import com.exmp.mvvm.model.NoteService
 import com.exmp.mvvm.model.Notes
-import com.exmp.mvvm.util.Util
 import com.exmp.mvvm.viewmodel.NoteItemViewModel
-import com.google.gson.Gson
 
-class NoteAdapter(private val mContext: Context, private val mContract: NoteContract) : RecyclerView.Adapter<Holder>() {
-    var items: MutableList<NoteService.Data.Note> = Notes.getNoteList()
+class NoteAdapter(private val mContext: Context) : RecyclerView.Adapter<Holder>() {
+    var items = Notes.getNoteList()
 
     override fun getItemCount(): Int {
         return items.size
@@ -35,25 +33,13 @@ class NoteAdapter(private val mContext: Context, private val mContract: NoteCont
         return Holder(bb.root, bb.model)
     }
 
-//    fun addItems(items: MutableList<NoteService.Data.Note>) {
-//        val beforeIdx = this.items.size - 1
-//        this.items.addAll(items)
-//        notifyItemRangeInserted(beforeIdx, itemCount - 1)
-//    }
-
-    fun addItem(title: String, content: String) {
-        val newNote = NoteService.Data.Note(NoteID.getID(), title, content)
-//        this.items.add(newNote)
-        Notes.addNote(newNote)
-        notifyItemInserted(itemCount - 1)
-    }
-
     fun deleteItem(seqNo: Int) {
         for (item in items) {
             if (seqNo == item.seqNo) {
                 val idx = items.indexOf(item)
-//                items.remove(item)
-                Notes.deleteNote(item)
+                items.remove(item)
+                Notes.updatePreference()
+//                Notes.deleteNote(item)
                 notifyItemRemoved(idx)
                 break
             }
@@ -63,14 +49,6 @@ class NoteAdapter(private val mContext: Context, private val mContract: NoteCont
     fun updateItems() {
         items = Notes.getNoteList()
         notifyDataSetChanged()
-    }
-
-    fun setDummyData() {
-        val rawData = Util.raw2string(mContext, R.raw.dummydata)
-        val data = Gson().fromJson<NoteService.Data>(rawData, NoteService.Data::class.java)
-        data.noteList?.let {
-            //            addItems(it)
-        }
     }
 }
 

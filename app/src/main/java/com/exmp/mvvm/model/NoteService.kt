@@ -1,9 +1,11 @@
 package com.exmp.mvvm.model
 
+import android.databinding.ObservableArrayList
+
 interface NoteService {
 
     class Data {
-        var noteList: MutableList<Note> = mutableListOf()
+        var noteList: ObservableArrayList<Note> = ObservableArrayList<Note>()
 
         class Note(val seqNo: Int?, val title: String?, val content: String?) {
 

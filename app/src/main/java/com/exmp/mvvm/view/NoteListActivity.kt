@@ -5,16 +5,11 @@ import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
-import android.view.LayoutInflater
 import android.view.View
-import android.widget.Toast
 import com.exmp.mvvm.R
 import com.exmp.mvvm.contract.NoteContract
-import com.exmp.mvvm.databinding.NoteDlgBinding
 import com.exmp.mvvm.databinding.NoteListBinding
-import com.exmp.mvvm.model.Notes
 import com.exmp.mvvm.viewmodel.NoteListViewModel
 
 class NoteListActivity : AppCompatActivity(), NoteContract {
@@ -31,31 +26,17 @@ class NoteListActivity : AppCompatActivity(), NoteContract {
     }
 
     private fun init() {
-        adapter = NoteAdapter(this as Context, this as NoteContract)
+        adapter = NoteAdapter(this as Context)
         bb.list.adapter = adapter
         showListOrInfo()
     }
 
-    /**
-     * 노트 추가
-     */
+    // 노트 추가
     override fun addNote() {
         startActivityForResult(Intent(this, NoteDetailActivity::class.java), 1000)
     }
 
-    /**
-     * 노트 삭제
-     */
-    override fun deleteNote(seqNo: Int?) {
-        seqNo?.let {
-            adapter.deleteItem(it)
-            showListOrInfo()
-        }
-    }
-
-    /**
-     * 노트 상세
-     */
+    // 노트 상세화면 보기
     override fun detailNote(seqNo: Int?) {
         seqNo?.let {
             val i = Intent(this, NoteDetailActivity::class.java)
@@ -64,6 +45,15 @@ class NoteListActivity : AppCompatActivity(), NoteContract {
         }
     }
 
+    // 노트 삭제
+    override fun deleteNote(seqNo: Int?) {
+        seqNo?.let {
+            adapter.deleteItem(it)
+            showListOrInfo()
+        }
+    }
+
+    // 노트 추가 후 리스트 반영
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
@@ -74,6 +64,9 @@ class NoteListActivity : AppCompatActivity(), NoteContract {
         }
     }
 
+
+    // 노트 개수에 따라 리스트 혹은 안내 문구 출력
+    // 노트가 한 개도 없으면 안내 문구 보여줌
     private fun showListOrInfo() {
         bb.model?.let { model ->
             if (adapter.itemCount == 0) {
