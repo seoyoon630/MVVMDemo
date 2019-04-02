@@ -14,14 +14,45 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="24dp"
         tools:context="com.exmp.mvvm.view.NoteDetailActivity">
+
+        <FrameLayout
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="40dp"
+            android:background="#663BB8EC"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:alpha="0.5"
+                android:padding="10dp"
+                android:onClick="@{()->model.back()}"
+                android:src="@drawable/back"
+                android:minHeight="40dp"
+                android:minWidth="20dp"
+                android:layout_height="wrap_content" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:alpha="0.5"
+                android:padding="10dp"
+                android:onClick="@{()->model.onDelete()}"
+                android:src="@drawable/delete"
+                android:layout_gravity="end"
+                android:id="@+id/delete"
+                android:minHeight="40dp"
+                android:minWidth="32dp"
+                android:layout_height="wrap_content" />
+        </FrameLayout>
 
         <TextView
             android:id="@+id/title_t"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="제목"
+            android:layout_marginStart="16dp"
             app:layout_constraintBottom_toBottomOf="@+id/title"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/title" />
@@ -33,10 +64,12 @@
             android:background="@drawable/text_bg"
             android:layout_marginStart="10dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
             android:text="@{model.title}"
+            android:layout_marginEnd="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/title_t"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/header" />
 
 
         <TextView
@@ -44,6 +77,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="내용"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="10dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/content" />
@@ -55,6 +89,7 @@
             android:background="@drawable/text_bg"
             android:layout_marginStart="10dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
             android:text="@{model.content}"
             android:minHeight="80dp"
             android:layout_marginTop="10dp"
@@ -68,7 +103,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@drawable/button_bg"
-            android:layout_margin="10dp"
+            android:layout_margin="16dp"
             android:text="취소"
             android:stateListAnimator="@null"
             android:onClick="@{()->model.onCancel()}"
@@ -81,7 +116,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@drawable/button_bg"
-            android:layout_margin="10dp"
+            android:layout_margin="16dp"
             android:text="@{model.buttonText}"
             android:stateListAnimator="@null"
             android:onClick="@{()->model.onConfirm()}"

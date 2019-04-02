@@ -1,10 +1,13 @@
 package com.exmp.mvvm.view
 
 import android.app.Activity
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.databinding.DataBindingUtil
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.Snackbar
+import android.view.View
 import android.view.WindowManager
 import com.exmp.mvvm.NoteID
 import com.exmp.mvvm.R
@@ -49,6 +52,7 @@ class NoteDetailActivity : AppCompatActivity(), NoteDetailContract {
                 }
             } else {
                 model.buttonText.set("추가")
+                bb.delete.visibility = View.GONE
             }
         }
     }
@@ -69,6 +73,22 @@ class NoteDetailActivity : AppCompatActivity(), NoteDetailContract {
                 finish()
             }
         }
+    }
+
+    override fun back() {
+        onBackPressed()
+    }
+
+    override fun onDelete() {
+        AlertDialog.Builder(this)
+            .setView(R.layout.note_dialog)
+            .setPositiveButton("삭제") { _, _ ->
+                run {
+                    Notes.deleteNote(seqNo)
+                    setResult(Activity.RESULT_OK)
+                    finish()
+                }
+            }.show()
     }
 
     override fun onCancel() {

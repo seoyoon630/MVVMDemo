@@ -9,18 +9,18 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.exmp.mvvm.R
 import com.exmp.mvvm.contract.NoteContract
-import com.exmp.mvvm.databinding.NoteListBinding
-import com.exmp.mvvm.viewmodel.NoteListViewModel
+import com.exmp.mvvm.databinding.NoteMainBinding
+import com.exmp.mvvm.viewmodel.NoteMainViewModel
 
-class NoteListActivity : AppCompatActivity(), NoteContract {
+class NoteMainActivity : AppCompatActivity(), NoteContract {
 
     private lateinit var adapter: NoteAdapter
-    private lateinit var bb: NoteListBinding
+    private lateinit var bb: NoteMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        bb = DataBindingUtil.setContentView(this, R.layout.note_list)
-        bb.model = NoteListViewModel(this)
+        bb = DataBindingUtil.setContentView(this, R.layout.note_main)
+        bb.model = NoteMainViewModel(this)
 
         init()
     }
@@ -42,14 +42,6 @@ class NoteListActivity : AppCompatActivity(), NoteContract {
             val i = Intent(this, NoteDetailActivity::class.java)
             i.putExtra(NoteDetailActivity.EXTRA.seqNo, it)
             startActivityForResult(i, 1001)
-        }
-    }
-
-    // 노트 삭제
-    override fun deleteNote(seqNo: Int?) {
-        seqNo?.let {
-            adapter.deleteItem(it)
-            showListOrInfo()
         }
     }
 

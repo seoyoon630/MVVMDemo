@@ -5,7 +5,7 @@ import android.databinding.ObservableArrayList
 interface NoteService {
 
     class Data {
-        var noteList: ObservableArrayList<Note> = ObservableArrayList<Note>()
+        var noteList: ObservableArrayList<Note> = ObservableArrayList()
 
         class Note(val seqNo: Int?, val title: String?, val content: String?) {
 

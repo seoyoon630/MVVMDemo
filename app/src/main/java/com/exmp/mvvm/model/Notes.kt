@@ -1,6 +1,7 @@
 package com.exmp.mvvm.model
 
 import android.databinding.ObservableArrayList
+import android.util.Log
 import com.exmp.mvvm.util.PP
 import com.google.gson.Gson
 
@@ -30,8 +31,8 @@ object Notes {
     fun addNote(note: NoteService.Data.Note) {
         data?.let {
             it.noteList.add(note)
-            val json = Gson().toJson(it)
-            PP.NOTE.set(json)
+            PP.LAST_SEQNO.set(note.seqNo!!)
+            updatePreference()
         }
     }
 
@@ -42,22 +43,32 @@ object Notes {
                     it.noteList[index] = note
                 }
             }
-            val json = Gson().toJson(it)
-            PP.NOTE.set(json)
+            updatePreference()
         }
     }
 
-    fun deleteNote(note: NoteService.Data.Note) {
+    fun deleteNote(seqNo: Int) {
+        data?.let {
+            for (note in it.noteList) {
+                if (note.seqNo == seqNo) {
+                    deleteNote(note)
+                    break
+                }
+            }
+        }
+    }
+
+    private fun deleteNote(note: NoteService.Data.Note) {
         data?.let {
             it.noteList.remove(note)
-            val json = Gson().toJson(it)
-            PP.NOTE.set(json)
+            updatePreference()
         }
     }
 
     fun updatePreference() {
         data?.let {
             val json = Gson().toJson(it)
+            Log.i("updatePreference", json)
             PP.NOTE.set(json)
         }
     }

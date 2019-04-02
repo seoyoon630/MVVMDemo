@@ -8,10 +8,6 @@ class NoteItemViewModel(private var contract: NoteContract) {
     var noteName = ObservableField<String>()
     var noteSeq = ObservableField<Int>()
 
-    fun deleteNote(){
-        contract.deleteNote(noteSeq.get())
-    }
-
     fun detailNote(){
         contract.detailNote(noteSeq.get())
     }

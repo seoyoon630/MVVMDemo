@@ -8,14 +8,14 @@
 
         <variable
             name="model"
-            type="com.exmp.mvvm.viewmodel.NoteListViewModel" />
+            type="com.exmp.mvvm.viewmodel.NoteMainViewModel" />
     </data>
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/white"
-        tools:context=".view.NoteListActivity">
+        tools:context=".view.NoteMainActivity">
 
         <TextView
             android:id="@+id/notepad"

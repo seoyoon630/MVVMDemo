@@ -7,7 +7,8 @@ import android.preference.PreferenceManager;
 import java.util.Set;
 
 public enum PP {
-    NOTE
+    NOTE,
+    LAST_SEQNO
     ;
 
     private static final String DEFVALUE_STRING = "";
