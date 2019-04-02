@@ -28,7 +28,7 @@
                 android:layout_width="wrap_content"
                 android:alpha="0.5"
                 android:padding="10dp"
-                android:onClick="@{()->model.back()}"
+                android:onClick="@{()->model.onCancel()}"
                 android:src="@drawable/back"
                 android:minHeight="40dp"
                 android:minWidth="20dp"

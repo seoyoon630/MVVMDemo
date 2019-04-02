@@ -56,7 +56,6 @@ class NoteMainActivity : AppCompatActivity(), NoteContract {
         }
     }
 
-
     // 노트 개수에 따라 리스트 혹은 안내 문구 출력
     // 노트가 한 개도 없으면 안내 문구 보여줌
     private fun showListOrInfo() {

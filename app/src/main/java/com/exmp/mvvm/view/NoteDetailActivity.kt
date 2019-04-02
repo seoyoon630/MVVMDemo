@@ -75,10 +75,6 @@ class NoteDetailActivity : AppCompatActivity(), NoteDetailContract {
         }
     }
 
-    override fun back() {
-        onBackPressed()
-    }
-
     override fun onDelete() {
         AlertDialog.Builder(this)
             .setView(R.layout.note_dialog)

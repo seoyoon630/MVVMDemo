@@ -22,10 +22,6 @@ class NoteDetailViewModel(var contract: NoteDetailContract) {
         contract.onConfirm()
     }
 
-    fun back(){
-        contract.back()
-    }
-
     fun onDelete(){
         contract.onDelete()
     }
