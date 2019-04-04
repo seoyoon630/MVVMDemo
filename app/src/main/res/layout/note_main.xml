@@ -62,7 +62,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:background="@drawable/button_bg"
-            android:onClick="@{()->model.addNote()}"
+            android:onClick="@{()->model.moveToAddNote()}"
             android:text="@string/note_add"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"

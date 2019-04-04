@@ -6,34 +6,51 @@ import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.view.View
 import com.exmp.mvvm.R
 import com.exmp.mvvm.contract.NoteContract
 import com.exmp.mvvm.databinding.NoteMainBinding
+import com.exmp.mvvm.util.EE
 import com.exmp.mvvm.viewmodel.NoteMainViewModel
+import java.util.*
 
-class NoteMainActivity : AppCompatActivity(), NoteContract {
+class NoteMainActivity : AppCompatActivity(), NoteContract, Observer {
+
+    private lateinit var binding: NoteMainBinding
+    private lateinit var viewModel: NoteMainViewModel
 
     private lateinit var adapter: NoteAdapter
-    private lateinit var bb: NoteMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        bb = DataBindingUtil.setContentView(this, R.layout.note_main)
-        bb.model = NoteMainViewModel(this)
 
-        init()
+        initDataBinding()
+        setupAdapter()
     }
 
-    private fun init() {
+    private fun initDataBinding() {
+        binding = DataBindingUtil.setContentView(this, R.layout.note_main)
+        viewModel = NoteMainViewModel()
+        viewModel.addObserver(this)
+        binding.model = viewModel
+    }
+
+    private fun setupAdapter() {
         adapter = NoteAdapter(this as Context)
-        bb.list.adapter = adapter
-        showListOrInfo()
+        binding.list.adapter = adapter
+        viewModel.loadList()
     }
 
-    // 노트 추가
-    override fun addNote() {
-        startActivityForResult(Intent(this, NoteDetailActivity::class.java), 1000)
+    override fun update(o: Observable?, arg: Any?) {
+        if (o is NoteMainViewModel) {
+            when {
+                EE.SHOW_LIST == (arg as EE) -> {
+                    adapter.items = viewModel.getList()
+                }
+                EE.MOVE_TO_ADD_NOTE == arg -> {
+                    startActivityForResult(Intent(this, NoteDetailActivity::class.java), 1000)
+                }
+            }
+        }
     }
 
     // 노트 상세화면 보기
@@ -51,23 +68,7 @@ class NoteMainActivity : AppCompatActivity(), NoteContract {
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == 1000 || requestCode == 1001) {
                 adapter.updateItems()
-                showListOrInfo()
             }
         }
     }
-
-    // 노트 개수에 따라 리스트 혹은 안내 문구 출력
-    // 노트가 한 개도 없으면 안내 문구 보여줌
-    private fun showListOrInfo() {
-        bb.model?.let { model ->
-            if (adapter.itemCount == 0) {
-                model.showInfo.set(View.VISIBLE)
-                model.showList.set(View.INVISIBLE)
-            } else {
-                model.showInfo.set(View.INVISIBLE)
-                model.showList.set(View.VISIBLE)
-            }
-        }
-    }
-
 }

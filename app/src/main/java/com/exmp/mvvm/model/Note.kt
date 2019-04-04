@@ -5,19 +5,30 @@ import android.util.Log
 import com.exmp.mvvm.util.PP
 import com.google.gson.Gson
 
-object Notes {
-    var data: NoteService.Data? = null
+class Note {
+    var data: Data? = null
 
-    fun getNoteList(): ObservableArrayList<NoteService.Data.Note> {
+    class Data {
+        var noteList: ObservableArrayList<Note> = ObservableArrayList()
+
+        class Note(val seqNo: Int?, val title: String?, val content: String?) {
+
+            override fun toString(): String {
+                return "$seqNo, $title, $content"
+            }
+        }
+    }
+
+    fun getNoteList(): ObservableArrayList<Data.Note> {
         if (data == null) {
             val rawData = PP.NOTE.getString("")
-            val temp = Gson().fromJson<NoteService.Data>(rawData, NoteService.Data::class.java)
-            data = temp ?: NoteService.Data()
+            val temp = Gson().fromJson<Data>(rawData, Data::class.java)
+            data = temp ?: Data()
         }
         return data!!.noteList
     }
 
-    fun getNote(seqNo: Int): NoteService.Data.Note? {
+    fun getNote(seqNo: Int): Data.Note? {
         data?.let {
             for (note in it.noteList) {
                 if (seqNo == note.seqNo) {
@@ -28,7 +39,7 @@ object Notes {
         return null
     }
 
-    fun addNote(note: NoteService.Data.Note) {
+    fun addNote(note: Data.Note) {
         data?.let {
             it.noteList.add(note)
             PP.LAST_SEQNO.set(note.seqNo!!)
@@ -36,7 +47,7 @@ object Notes {
         }
     }
 
-    fun updateNote(note: NoteService.Data.Note) {
+    fun updateNote(note: Data.Note) {
         data?.let {
             for ((index, orgNote) in it.noteList.withIndex()) {
                 if (orgNote.seqNo == note.seqNo) {
@@ -58,7 +69,7 @@ object Notes {
         }
     }
 
-    private fun deleteNote(note: NoteService.Data.Note) {
+    private fun deleteNote(note: Data.Note) {
         data?.let {
             it.noteList.remove(note)
             updatePreference()
@@ -72,4 +83,6 @@ object Notes {
             PP.NOTE.set(json)
         }
     }
+    
+    
 }

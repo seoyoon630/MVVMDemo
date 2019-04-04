@@ -7,14 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.exmp.mvvm.R
-import com.exmp.mvvm.contract.NoteContract
 import com.exmp.mvvm.databinding.NoteItemBinding
-import com.exmp.mvvm.model.NoteService
-import com.exmp.mvvm.model.Notes
+import com.exmp.mvvm.model.Note
 import com.exmp.mvvm.viewmodel.NoteItemViewModel
 
 class NoteAdapter(private val mContext: Context) : RecyclerView.Adapter<Holder>() {
-    var items = Notes.getNoteList()
+    var items = mutableListOf<Note.Data.Note>()
 
     override fun getItemCount(): Int {
         return items.size
@@ -28,20 +26,23 @@ class NoteAdapter(private val mContext: Context) : RecyclerView.Adapter<Holder>(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val bb =
             DataBindingUtil.inflate<NoteItemBinding>(LayoutInflater.from(mContext), R.layout.note_item, parent, false)
-        bb.model = NoteItemViewModel(mContext as NoteContract)
-        return Holder(bb.root, bb.model)
+        return Holder(bb)
     }
 
     fun updateItems() {
-        items = Notes.getNoteList()
+//        items = Note.getNoteList()
         notifyDataSetChanged()
     }
 }
 
-class Holder(itemView: View, val model: NoteItemViewModel?) : RecyclerView.ViewHolder(itemView) {
+class Holder(private val noteItemBinding: NoteItemBinding) : RecyclerView.ViewHolder(noteItemBinding.root) {
 
-    fun bind(item: NoteService.Data.Note) {
-        model?.bindItem(item)
+    fun bind(item: Note.Data.Note) {
+        if(noteItemBinding.model == null){
+            noteItemBinding.model = NoteItemViewModel()
+        }
+        noteItemBinding.model!!.bindItem(item)
+        noteItemBinding.root.setOnClickListener { View.OnClickListener { noteItemBinding.model?.detailNote() } }
     }
 
 }
