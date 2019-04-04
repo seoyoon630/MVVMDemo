@@ -28,7 +28,7 @@ class NoteDao {
     fun addNote(note: NoteData.Note) {
         data.noteList.add(note)
         PP.LAST_SEQNO.set(note.seqNo!!)
-        updatePreference()
+        updateFile()
     }
 
     fun updateNote(note: NoteData.Note) {
@@ -37,7 +37,7 @@ class NoteDao {
                 data.noteList[index] = note
             }
         }
-        updatePreference()
+        updateFile()
     }
 
     fun deleteNote(seqNo: Int) {
@@ -51,14 +51,13 @@ class NoteDao {
 
     private fun deleteNote(note: NoteData.Note) {
         data.noteList.remove(note)
-        updatePreference()
+        updateFile()
     }
 
-    private fun updatePreference() {
+    private fun updateFile() {
         val json = Gson().toJson(data)
-        Log.i("updatePreference", json)
+        Log.i("updateFile", json)
         FileUtil.writeFile(FileUtil.getNoteJsonFile(), json)
-//        PP.NOTE.set(json)
     }
 
 
