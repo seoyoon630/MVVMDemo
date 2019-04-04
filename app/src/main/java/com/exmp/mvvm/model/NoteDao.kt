@@ -1,12 +1,65 @@
 package com.exmp.mvvm.model
 
+import android.util.Log
+import com.exmp.mvvm.util.FileUtil
+import com.exmp.mvvm.util.PP
+import com.google.gson.Gson
+
 class NoteDao {
-    var noteList: MutableList<Note> = mutableListOf()
+    private val data by lazy {
+        val rawData = FileUtil.readFile(FileUtil.getNoteJsonFile())
+        val temp = Gson().fromJson<NoteData>(rawData, NoteData::class.java)
+        temp ?: NoteData()
+    }
 
-    class Note(val seqNo: Int?, val title: String?, val content: String?) {
+    fun getNoteList(): MutableList<NoteData.Note> {
+        return data.noteList
+    }
 
-        override fun toString(): String {
-            return "$seqNo, $title, $content"
+    fun getNote(seqNo: Int): NoteData.Note? {
+        for (note in data.noteList) {
+            if (seqNo == note.seqNo) {
+                return note
+            }
+        }
+        return null
+    }
+
+    fun addNote(note: NoteData.Note) {
+        data.noteList.add(note)
+        PP.LAST_SEQNO.set(note.seqNo!!)
+        updatePreference()
+    }
+
+    fun updateNote(note: NoteData.Note) {
+        for ((index, orgNote) in data.noteList.withIndex()) {
+            if (orgNote.seqNo == note.seqNo) {
+                data.noteList[index] = note
+            }
+        }
+        updatePreference()
+    }
+
+    fun deleteNote(seqNo: Int) {
+        for (note in data.noteList) {
+            if (note.seqNo == seqNo) {
+                deleteNote(note)
+                break
+            }
         }
     }
+
+    private fun deleteNote(note: NoteData.Note) {
+        data.noteList.remove(note)
+        updatePreference()
+    }
+
+    private fun updatePreference() {
+        val json = Gson().toJson(data)
+        Log.i("updatePreference", json)
+        FileUtil.writeFile(FileUtil.getNoteJsonFile(), json)
+//        PP.NOTE.set(json)
+    }
+
+
 }

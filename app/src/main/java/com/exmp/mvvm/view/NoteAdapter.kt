@@ -9,18 +9,18 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.exmp.mvvm.R
 import com.exmp.mvvm.databinding.NoteItemBinding
-import com.exmp.mvvm.model.NoteDao
+import com.exmp.mvvm.model.NoteData
 
 import com.exmp.mvvm.viewmodel.NoteItemViewModel
 
 class NoteAdapter(private val mContext: Context) : RecyclerView.Adapter<NoteAdapter.Holder>() {
-    var mItems = mutableListOf<NoteDao.Note>()
+    var mItems = mutableListOf<NoteData.Note>()
 
     override fun getItemCount(): Int {
         return mItems.size
     }
 
-    fun setItems(items: MutableList<NoteDao.Note>) {
+    fun setItems(items: MutableList<NoteData.Note>) {
         mItems = items
         notifyDataSetChanged()
     }
@@ -38,9 +38,9 @@ class NoteAdapter(private val mContext: Context) : RecyclerView.Adapter<NoteAdap
 
     inner class Holder(private val noteItemBinding: NoteItemBinding, private val mContext: Context) :
         RecyclerView.ViewHolder(noteItemBinding.root) {
-        var item: NoteDao.Note? = null
+        var item: NoteData.Note? = null
 
-        fun bind(item: NoteDao.Note) {
+        fun bind(item: NoteData.Note) {
             this.item = item
             if (noteItemBinding.model == null) {
                 noteItemBinding.model = NoteItemViewModel()
