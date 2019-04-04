@@ -9,31 +9,44 @@ import android.support.design.widget.Snackbar
 import android.view.View
 import android.view.WindowManager
 import com.exmp.mvvm.R
-import com.exmp.mvvm.contract.NoteDetailContract
 import com.exmp.mvvm.databinding.NoteDetailBinding
-import com.exmp.mvvm.model.Note
+import com.exmp.mvvm.util.EE
 import com.exmp.mvvm.viewmodel.NoteDetailViewModel
+import java.util.*
 
-class NoteDetailActivity : AppCompatActivity(), NoteDetailContract {
+class NoteDetailActivity : AppCompatActivity(), Observer {
 
-    private lateinit var bb: NoteDetailBinding
-    private var seqNo: Int = NoteDetailViewModel.INVALID_SEQNO
+    interface EXTRA {
+        companion object {
+            const val seqNo = "seqNo"
+        }
+    }
+
+    private lateinit var binding: NoteDetailBinding
+    private lateinit var viewModel: NoteDetailViewModel
+    private var seqNo: Int = NoteDetailViewModel.INVALID_SEQ_NO
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        bb = DataBindingUtil.setContentView(this, R.layout.note_detail)
-        bb.model = NoteDetailViewModel(this as NoteDetailContract)
 
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+        initDataBinding()
         init()
+    }
+
+    private fun initDataBinding() {
+        binding = DataBindingUtil.setContentView(this, R.layout.note_detail)
+        viewModel = NoteDetailViewModel()
+        viewModel.addObserver(this)
+        binding.model = viewModel
     }
 
     // extra로 고유번호가 넘어왔으면 노트 상세보기 화면
     // 안 넘어왔으면 노트 추가하기 화면
     private fun init() {
-        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
-        seqNo = intent.getIntExtra(EXTRA.seqNo, NoteDetailViewModel.INVALID_SEQNO)
-        bb.model?.let { model ->
-            if (seqNo != NoteDetailViewModel.INVALID_SEQNO) {
+        seqNo = intent.getIntExtra(EXTRA.seqNo, NoteDetailViewModel.INVALID_SEQ_NO)
+        binding.model?.let { model ->
+            if (seqNo != NoteDetailViewModel.INVALID_SEQ_NO) {
                 val note = model.getNote(seqNo)
                 note?.let {
                     model.title.set(it.title)
@@ -42,45 +55,43 @@ class NoteDetailActivity : AppCompatActivity(), NoteDetailContract {
                 }
             } else {
                 model.buttonText.set("추가")
-                bb.delete.visibility = View.GONE
+                binding.delete.visibility = View.GONE
             }
         }
     }
 
-    override fun onConfirm() {
-        val title = bb.title.text.toString()
-        val content = bb.content.text.toString()
-        when {
-            title.isEmpty() -> Snackbar.make(bb.root, "제목을 써주세요", Snackbar.LENGTH_SHORT).show()
-            content.isEmpty() -> Snackbar.make(bb.root, "내용을 써주세요", Snackbar.LENGTH_SHORT).show()
-            else -> {
-                bb.model?.updateNote(seqNo, title, content)
-                setResult(Activity.RESULT_OK)
-                finish()
-            }
-        }
-    }
-
-    override fun onDelete() {
-        AlertDialog.Builder(this)
-            .setView(R.layout.note_dialog)
-            .setPositiveButton("삭제") { _, _ ->
-                run {
-//                    Note.deleteNote(seqNo)
-                    setResult(Activity.RESULT_OK)
-                    finish()
+    override fun update(o: Observable?, arg: Any?) {
+        if (o is NoteDetailViewModel) {
+            when {
+                EE.CONFIRM_NOTE == (arg as EE) -> {
+                    val title = binding.title.text.toString()
+                    val content = binding.content.text.toString()
+                    when {
+                        title.trim().isEmpty() -> Snackbar.make(binding.root, "제목을 써주세요", Snackbar.LENGTH_SHORT).show()
+                        content.trim().isEmpty() -> Snackbar.make(binding.root, "내용을 써주세요", Snackbar.LENGTH_SHORT).show()
+                        else -> {
+                            viewModel.confirmNote(seqNo, title, content)
+                            setResult(Activity.RESULT_OK)
+                            finish()
+                        }
+                    }
                 }
-            }.show()
-    }
-
-    override fun onCancel() {
-        setResult(Activity.RESULT_CANCELED)
-        finish()
-    }
-
-    interface EXTRA {
-        companion object {
-            const val seqNo = "seqNo"
+                EE.DELETE_NOTE == arg -> {
+                    AlertDialog.Builder(this)
+                        .setView(R.layout.note_dialog)
+                        .setPositiveButton("삭제") { _, _ ->
+                            run {
+                                viewModel.deleteNote(seqNo)
+                                setResult(Activity.RESULT_OK)
+                                finish()
+                            }
+                        }.show()
+                }
+                EE.ON_CANCEL == arg -> {
+                    onBackPressed()
+                }
+            }
         }
     }
+
 }

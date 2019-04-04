@@ -2,43 +2,50 @@ package com.exmp.mvvm.viewmodel
 
 import android.databinding.ObservableField
 import com.exmp.mvvm.NoteID
-import com.exmp.mvvm.contract.NoteDetailContract
-import com.exmp.mvvm.model.Note
+import com.exmp.mvvm.model.NoteDao
+import com.exmp.mvvm.model.NoteModel
 
-class NoteDetailViewModel(var contract: NoteDetailContract) {
+import com.exmp.mvvm.util.EE
+
+class NoteDetailViewModel : BaseObservable() {
+
+    companion object {
+        const val INVALID_SEQ_NO = -1
+    }
 
     var title = ObservableField<String>()
     var content = ObservableField<String>()
     var buttonText = ObservableField<String>()
 
-    fun getNote(seqNo: Int): Note.Data.Note? {
-//        return Note.getNote(seqNo)
-        return null
+    fun onCancelClick() {
+        notify(EE.ON_CANCEL)
     }
 
-    fun onCancel(){
-        contract.onCancel()
+    fun onConfirmClick() {
+        notify(EE.CONFIRM_NOTE)
     }
 
-    fun onConfirm() {
-        contract.onConfirm()
+    fun onDeleteClick() {
+        notify(EE.DELETE_NOTE)
     }
 
-    fun onDelete(){
-        contract.onDelete()
+    fun getNote(seqNo: Int): NoteDao.Note? {
+        val note = NoteModel()
+        return note.getNote(seqNo)
     }
 
-    fun updateNote(seqNo: Int, title: String, content: String) {
-//        if (seqNo != INVALID_SEQNO) {
-//
-//            Note.updateNote(Note.Data.Note(seqNo, title, content))
-//        } else {
-//            Note.moveToAddNote(Note.Data.Note(NoteID.getID(), title, content))
-//        }
+    fun confirmNote(seqNo: Int, title: String, content: String) {
+        val note = NoteModel()
+        if (seqNo != INVALID_SEQ_NO) {
+            note.updateNote(NoteDao.Note(seqNo, title, content))
+        } else {
+            note.addNote(NoteDao.Note(NoteID.getID(), title, content))
+        }
     }
 
-    companion object {
-        val INVALID_SEQNO = -1
+    fun deleteNote(seqNo: Int) {
+        val note = NoteModel()
+        note.deleteNote(seqNo)
     }
 
 }

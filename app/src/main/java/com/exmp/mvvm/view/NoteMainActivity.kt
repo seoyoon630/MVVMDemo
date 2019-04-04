@@ -7,13 +7,17 @@ import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.exmp.mvvm.R
-import com.exmp.mvvm.contract.NoteContract
 import com.exmp.mvvm.databinding.NoteMainBinding
 import com.exmp.mvvm.util.EE
 import com.exmp.mvvm.viewmodel.NoteMainViewModel
 import java.util.*
 
-class NoteMainActivity : AppCompatActivity(), NoteContract, Observer {
+class NoteMainActivity : AppCompatActivity(), Observer {
+
+    companion object {
+        const val ADD_NOTE_REQ_CODE = 1000
+        const val UPDATE_NOTE_REQ_CODE = 1001
+    }
 
     private lateinit var binding: NoteMainBinding
     private lateinit var viewModel: NoteMainViewModel
@@ -44,21 +48,12 @@ class NoteMainActivity : AppCompatActivity(), NoteContract, Observer {
         if (o is NoteMainViewModel) {
             when {
                 EE.SHOW_LIST == (arg as EE) -> {
-                    adapter.items = viewModel.getList()
+                    adapter.setItems(viewModel.getList())
                 }
                 EE.MOVE_TO_ADD_NOTE == arg -> {
-                    startActivityForResult(Intent(this, NoteDetailActivity::class.java), 1000)
+                    startActivityForResult(Intent(this, NoteDetailActivity::class.java), ADD_NOTE_REQ_CODE)
                 }
             }
-        }
-    }
-
-    // 노트 상세화면 보기
-    override fun detailNote(seqNo: Int?) {
-        seqNo?.let {
-            val i = Intent(this, NoteDetailActivity::class.java)
-            i.putExtra(NoteDetailActivity.EXTRA.seqNo, it)
-            startActivityForResult(i, 1001)
         }
     }
 
@@ -66,8 +61,8 @@ class NoteMainActivity : AppCompatActivity(), NoteContract, Observer {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == 1000 || requestCode == 1001) {
-                adapter.updateItems()
+            if (requestCode == ADD_NOTE_REQ_CODE || requestCode == UPDATE_NOTE_REQ_CODE) {
+                viewModel.loadList()
             }
         }
     }

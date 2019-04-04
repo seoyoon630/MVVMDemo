@@ -1,19 +1,13 @@
 package com.exmp.mvvm.viewmodel
 
 import android.databinding.ObservableField
-import com.exmp.mvvm.contract.NoteContract
-import com.exmp.mvvm.model.Note
-import java.util.*
+import com.exmp.mvvm.model.NoteDao
 
-class NoteItemViewModel : Observable() {
+class NoteItemViewModel : BaseObservable() {
     var noteName = ObservableField<String>()
     var noteSeq = ObservableField<Int>()
 
-    fun detailNote(){
-//        contract.detailNote(noteSeq.get())
-    }
-
-    fun bindItem(item: Note.Data.Note) {
+    fun bindItem(item: NoteDao.Note) {
         noteName.set(item.title)
         noteSeq.set(item.seqNo)
     }
