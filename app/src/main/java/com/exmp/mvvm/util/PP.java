@@ -7,7 +7,6 @@ import android.preference.PreferenceManager;
 import java.util.Set;
 
 public enum PP {
-    NOTE,
     LAST_SEQNO
     ;
 

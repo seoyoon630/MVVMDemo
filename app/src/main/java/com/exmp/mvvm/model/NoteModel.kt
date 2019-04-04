@@ -1,12 +1,13 @@
 package com.exmp.mvvm.model
 
 import android.util.Log
+import com.exmp.mvvm.util.FileUtil
 import com.exmp.mvvm.util.PP
 import com.google.gson.Gson
 
 class NoteModel {
     private val data by lazy {
-        val rawData = PP.NOTE.getString("")
+        val rawData = FileUtil.readFile(FileUtil.getNoteJsonFile())
         val temp = Gson().fromJson<NoteDao>(rawData, NoteDao::class.java)
         temp ?: NoteDao()
     }
@@ -56,7 +57,8 @@ class NoteModel {
     private fun updatePreference() {
         val json = Gson().toJson(data)
         Log.i("updatePreference", json)
-        PP.NOTE.set(json)
+        FileUtil.writeFile(FileUtil.getNoteJsonFile(), json)
+//        PP.NOTE.set(json)
     }
 
 
